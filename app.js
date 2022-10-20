@@ -130,7 +130,7 @@ const websocket = {
     special: async (msg) => {
       websocket.special = msg.data
     },
-    special: async (msg) => {
+    chat: async (msg) => {
       websocket.chat = msg.data
     },
     message: async (msg) => {
