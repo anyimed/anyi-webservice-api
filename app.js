@@ -60,7 +60,7 @@ const websocket = {
         websocket.temp = data;
       }
 
-      if (websocket.temppin.id === undefined) {
+      if (!websocket.temppin.id) {
         const { data, error } = await supabase
           .from("pin_message")
           .select()
