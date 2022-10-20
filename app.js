@@ -3,9 +3,9 @@ var app = express();
 var expressWs = require("express-ws")(app);
 /********************************/
 const { createClient } = require("@supabase/supabase-js");
-const supabaseUrl = "https://xdiorjaqipajnnxglhsh.supabase.co";
+const supabaseUrl = "https://yjqtpadsahfkxoiebttk.supabase.co";
 const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkaW9yamFxaXBham5ueGdsaHNoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY2NDY0ODM0MiwiZXhwIjoxOTgwMjI0MzQyfQ.say4UtQz25iFwwaMqn6Q5vHqoAFzvAd2n9Q0NYWWUJA";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqcXRwYWRzYWhma3hvaWVidHRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjYyNTcyNTUsImV4cCI6MTk4MTgzMzI1NX0.wk6sfKMMzT-v3opgVKngcm48oZGUJxjii6pLbnEX5L8";
 const supabase = createClient(supabaseUrl, supabaseKey);
 /********************************/
 const PORT = process.env.PORT || 3000;
