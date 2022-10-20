@@ -98,6 +98,9 @@ const websocket = {
           case "message":
             websocket.events.message(msg);
             break;
+           case "chat":
+            websocket.events.chat(msg);
+            break;
         }
         websocket.aWss.clients.forEach(function each(client) {
           if (client.readyState === ws.OPEN) {
