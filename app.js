@@ -34,8 +34,8 @@ app.use(function (req, res, next) {
 
 app.get("/ready_server", async function (req, res, next) {
   const { data, error } = await supabase.from("message").select();
-  console.log(data)
-  console.log(error)
+//   console.log(data)
+  console.error(error)
   return res.json(data);
 });
 
@@ -56,6 +56,7 @@ const websocket = {
           .select()
           .limit(websocket.limit)
           .order("id", { ascending: false });
+          console.error(error)
         websocket.temp = data;
       }
 
@@ -66,7 +67,7 @@ const websocket = {
           .eq("active", "true")
           .limit(1)
           .order("id", { ascending: false });
-        console.log(data)
+          console.error(error)
         websocket.temppin = data ? data[0] : {};
         websocket.temppin ? (websocket.temppin.pin = true) : {};
       }
@@ -112,6 +113,7 @@ const websocket = {
       const { data, error } = await supabase
         .from("pin_message")
         .insert([{ user: msg.user, message: msg.message, active: true }]);
+        console.error(error)
       websocket.temppin = data[0];
       websocket.temppin.pin = true;
       msg = websocket.temppin;
@@ -121,7 +123,7 @@ const websocket = {
         .from("pin_message")
         .update({ active: false })
         .eq("active", "true");
-      console.log(data);
+        console.error(error)
       websocket.temppin = { id: 0 };
     },
     sticker: async (msg) => { },
