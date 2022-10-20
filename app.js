@@ -44,7 +44,7 @@ const websocket = {
   chat: false,
   aWss: null,
   temp: [],
-  temppin: {},
+  temppin: null,
   limit: 100,
   init: () => {
     websocket.aWss = expressWs.getWss("/");
@@ -60,7 +60,7 @@ const websocket = {
         websocket.temp = data;
       }
 
-      if (!websocket.temppin.id) {
+      if (!websocket.temppin) {
         const { data, error } = await supabase
           .from("pin_message")
           .select()
