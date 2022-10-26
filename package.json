@@ -17,6 +17,7 @@
     "socket.io": "^4.5.1",
     "@supabase/supabase-js": "^1.35.7",
     "dotenv": "^16.0.2",
-    "bad-words": "^3.0.4"
+    "bad-words": "^3.0.4",
+    "fs": "^0.0.1-security"
   }
 }
