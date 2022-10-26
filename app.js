@@ -57,14 +57,14 @@ function checkword(text) {
   // console.log(v,i)
   let temp = text;
   text = text.split(" ");
-  console.log(text);
+  // console.log(text);
   text.forEach((t) => {
       swear_words.forEach((v, i) => {
           temp = temp.replace(v, "***");
       });
   });
 
-  console.log(temp);
+  // console.log(temp);
 
   return temp;
   // })
@@ -83,7 +83,7 @@ const websocket = {
   init: () => {
     websocket.aWss = expressWs.getWss("/");
     websocket.aWss.on("connection", async function (ws) {
-      console.log("ONCONNECT");
+      // console.log("ONCONNECT");
       if (websocket.temp.length == 0) {
         const { data, error } = await supabase
           .from("message")
@@ -114,7 +114,7 @@ const websocket = {
     });
     app.ws("/", function (ws, req) {
       ws.on("message", function (msg) {
-        console.log(msg);
+        // console.log(msg);
         msg = JSON.parse(msg);
         switch (msg.method) {
           case "pin":
@@ -142,7 +142,7 @@ const websocket = {
           }
         });
       });
-      console.log("socket", req.testing);
+      // console.log("socket", req.testing);
     });
   },
   events: {
@@ -184,7 +184,7 @@ const websocket = {
           // websocket.temp.splice(0, 1);
           websocket.temp.pop();
         }
-        console.log(data)
+        // console.log(data)
         websocket.temp = [data[0], ...websocket.temp];
         // data[0].concat(websocket.temp)
         // websocket.temp.push(data[0]);
