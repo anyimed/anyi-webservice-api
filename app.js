@@ -46,7 +46,7 @@ app.use(function (req, res, next) {
 app.get("/ready_server", async function (req, res, next) {
   const { data, error } = await supabase.from("message").select();
 //   console.log(data)
-  console.error(error)
+//   console.error(error)
   return res.json(data);
 });
 
@@ -148,6 +148,7 @@ const websocket = {
   events: {
     pin: async (msg) => {
       msg.message = checkword(filter.clean(msg.message)); //Don't be an ******
+console.log(msg);
       const { data, error } = await supabase
         .from("pin_message")
         .insert([{ user: msg.user, message: msg.message, active: true }]);
@@ -175,6 +176,7 @@ const websocket = {
       
       msg.message = checkword(filter.clean(msg.message)); //Don't be an ******
       // console.log(msg.message)
+console.log(msg);
       let obj = { user: msg.user, message: msg.message };
       const { data, error } = await supabase.from("message").insert([obj]);
       if (!error) {
