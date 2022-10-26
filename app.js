@@ -29,7 +29,7 @@ app.use((req, res, next) => {
   );
   res.header(
     "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, Content-Length, X-Requested-With"
+    "Content-Type, Authorization;application/xhtml+xml; charset=utf-8, Content-Length, X-Requested-With"
   );
   res.header("Access-Control-Allow-Credentials", true);
   res.header("Last-Modified", new Date());
@@ -142,7 +142,7 @@ const websocket = {
           }
         });
       });
-      // console.log("socket", req.testing);
+      console.log("socket", req.testing);
     });
   },
   events: {
