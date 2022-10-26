@@ -147,8 +147,7 @@ const websocket = {
   },
   events: {
     pin: async (msg) => {
-      msg.message = filter.clean(msg.message); //Don't be an ******
-      checkword(msg.message)
+      msg.message = checkword(filter.clean(msg.message)); //Don't be an ******
       const { data, error } = await supabase
         .from("pin_message")
         .insert([{ user: msg.user, message: msg.message, active: true }]);
@@ -174,8 +173,7 @@ const websocket = {
     },
     message: async (msg) => {
       
-      msg.message = filter.clean(msg.message); //Don't be an ******
-      checkword(msg.message)
+      msg.message = checkword(filter.clean(msg.message)); //Don't be an ******
       // console.log(msg.message)
       let obj = { user: msg.user, message: msg.message };
       const { data, error } = await supabase.from("message").insert([obj]);
