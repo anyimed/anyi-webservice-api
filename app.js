@@ -9,6 +9,17 @@ const supabaseKey =
 const supabase = createClient(supabaseUrl, supabaseKey);
 /********************************/
 const PORT = process.env.PORT || 3000;
+/********************************/
+const fs = require('fs');
+let swear_words = [];
+fs.readFile('./archive/swear-words.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  swear_words = data.split("\n");
+  // console.log(swear_words);
+});
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -38,6 +49,29 @@ app.get("/ready_server", async function (req, res, next) {
   console.error(error)
   return res.json(data);
 });
+
+function checkword(text) {
+  // sentences.forEach((v,i)=>{
+  let neg = 0;
+  let pos = 0;
+  // console.log(v,i)
+  let temp = text;
+  text = text.split(" ");
+  console.log(text);
+  text.forEach((t) => {
+      swear_words.forEach((v, i) => {
+          temp = temp.replace(v, "***");
+      });
+  });
+
+  console.log(temp);
+
+  return temp;
+  // })
+}
+var Filter = require('bad-words'),
+        filter = new Filter();
+        
 
 const websocket = {
   special: false,
@@ -113,6 +147,8 @@ const websocket = {
   },
   events: {
     pin: async (msg) => {
+      msg.message = filter.clean(msg.message); //Don't be an ******
+      checkword(msg.message)
       const { data, error } = await supabase
         .from("pin_message")
         .insert([{ user: msg.user, message: msg.message, active: true }]);
@@ -137,9 +173,9 @@ const websocket = {
       websocket.chat = msg.data
     },
     message: async (msg) => {
-      var Filter = require('bad-words'),
-        filter = new Filter();
+      
       msg.message = filter.clean(msg.message); //Don't be an ******
+      checkword(msg.message)
       // console.log(msg.message)
       let obj = { user: msg.user, message: msg.message };
       const { data, error } = await supabase.from("message").insert([obj]);
