@@ -177,7 +177,7 @@ const websocket = {
       msg.message = filter.clean(msg.message); //Don't be an ******
       // checkword(msg.message)
       // console.log(msg.message)
-      let obj = { user: msg.user, message: msg.message };
+      let obj = { user: msg.user, message: msg.message, image: msg.image };
       const { data, error } = await supabase.from("message").insert([obj]);
       if (!error) {
         if (websocket.temp.length >= websocket.limit) {
