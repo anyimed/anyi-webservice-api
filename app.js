@@ -70,7 +70,7 @@ app.get("/ready_server", async function (req, res, next) {
 //   // })
 // }
 var Filter = require('bad-words'),
-        filter = new Filter({ regex: /\*|\.|$/gi , replaceRegex:  /[A-Za-z0-9ก-ฮ_]/g });
+        filter = new Filter({ regex: /\*|\.|$/gi , replaceRegex:  /(\w+)/gi });
 swear_words.forEach((v, i) => {
  filter.addWords(v);
 });
@@ -176,7 +176,7 @@ const websocket = {
       websocket.chat = msg.data
     },
     message: async (msg) => {
-      
+      console.log(msg)
       msg.message = filter.clean(msg.message); //Don't be an ******
       // checkword(msg.message)
       console.log(msg)
