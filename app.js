@@ -10,16 +10,16 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 /********************************/
 const PORT = process.env.PORT || 3000;
 /********************************/
-// const fs = require('fs');
-// let swear_words = [];
-// fs.readFile('./archive/swear-words.txt', 'utf8', (err, data) => {
-//   if (err) {
-//     console.error(err);
-//     return;
-//   }
-//   swear_words = data.split("\n");
-//   // console.log(swear_words);
-// });
+const fs = require('fs');
+let swear_words = [];
+fs.readFile('./archive/swear-words.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  swear_words = data.split("\n");
+  // console.log(swear_words);
+});
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -71,7 +71,10 @@ app.get("/ready_server", async function (req, res, next) {
 // }
 var Filter = require('bad-words'),
         filter = new Filter({ regex: /\*|\.|$/gi , replaceRegex:  /[A-Za-z0-9ก-ฮ_]/g });
-        
+swear_words.forEach((v, i) => {
+ filter.addWords(v);
+});
+
 
 const websocket = {
   special: false,
