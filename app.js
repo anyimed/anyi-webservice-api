@@ -51,6 +51,7 @@ app.get("/ready_server", async function (req, res, next) {
 });
 
 function checkword(text) {
+console.log(text)
   // sentences.forEach((v,i)=>{
   let neg = 0;
   let pos = 0;
