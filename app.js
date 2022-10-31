@@ -70,7 +70,7 @@ app.get("/ready_server", async function (req, res, next) {
 //   // })
 // }
 var Filter = require('bad-words'),
-        filter = new Filter();
+        filter = new Filter({ regex: /\*|\.|$/gi , replaceRegex:  /[A-Za-z0-9ก-ฮ_]/g });
         
 
 const websocket = {
