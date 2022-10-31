@@ -70,7 +70,7 @@ app.get("/ready_server", async function (req, res, next) {
 //   // })
 // }
 var Filter = require('bad-words'),
-        filter = new Filter({ regex: /\*|\.|$/gi , replaceRegex:  /(\w+)/gi });
+        filter = new Filter({ regex: /\*|\.|$/gi });
 swear_words.forEach((v, i) => {
  filter.addWords(v);
 });
