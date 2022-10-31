@@ -10,16 +10,16 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 /********************************/
 const PORT = process.env.PORT || 3000;
 /********************************/
-const fs = require('fs');
-let swear_words = [];
-fs.readFile('./archive/swear-words.txt', 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  swear_words = data.split("\n");
-  // console.log(swear_words);
-});
+// const fs = require('fs');
+// let swear_words = [];
+// fs.readFile('./archive/swear-words.txt', 'utf8', (err, data) => {
+//   if (err) {
+//     console.error(err);
+//     return;
+//   }
+//   swear_words = data.split("\n");
+//   // console.log(swear_words);
+// });
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -70,10 +70,10 @@ app.get("/ready_server", async function (req, res, next) {
 //   // })
 // }
 var Filter = require('bad-words'),
-        filter = new Filter({ regex: /\*|\.|$/gi });
-swear_words.forEach((v, i) => {
- filter.addWords(v);
-});
+        filter = new Filter();
+// swear_words.forEach((v, i) => {
+//  filter.addWords(v);
+// });
 
 
 const websocket = {
@@ -150,7 +150,12 @@ const websocket = {
   },
   events: {
     pin: async (msg) => {
-      msg.message = filter.clean(msg.message); //Don't be an ******
+      try {
+msg.message = filter.clean(msg.message); //Don't be an ******
+} catch (error) {
+  
+}
+      
       // checkword(msg.message)
       const { data, error } = await supabase
         .from("pin_message")
@@ -177,7 +182,12 @@ const websocket = {
     },
     message: async (msg) => {
       console.log(msg)
-      msg.message = filter.clean(msg.message); //Don't be an ******
+           try {
+ msg.message = filter.clean(msg.message); //Don't be an ******
+} catch (error) {
+  
+}
+     
       // checkword(msg.message)
       console.log(msg)
       let obj = { user: msg.user, message: msg.message, image: msg.image, unique: msg.unique  };
