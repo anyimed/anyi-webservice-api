@@ -10,16 +10,16 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 /********************************/
 const PORT = process.env.PORT || 3000;
 /********************************/
-const fs = require('fs');
-let swear_words = [];
-fs.readFile('./archive/swear-words.txt', 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  swear_words = data.split("\n");
-  // console.log(swear_words);
-});
+// const fs = require('fs');
+// let swear_words = [];
+// fs.readFile('./archive/swear-words.txt', 'utf8', (err, data) => {
+//   if (err) {
+//     console.error(err);
+//     return;
+//   }
+//   swear_words = data.split("\n");
+//   // console.log(swear_words);
+// });
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -50,26 +50,26 @@ app.get("/ready_server", async function (req, res, next) {
   return res.json(data);
 });
 
-function checkword(text) {
-console.log(text)
-  // sentences.forEach((v,i)=>{
-  let neg = 0;
-  let pos = 0;
-  // console.log(v,i)
-  let temp = text;
-  text = text.split(" ");
-  // console.log(text);
-  text.forEach((t) => {
-      swear_words.forEach((v, i) => {
-          temp = temp.replace(v, "***");
-      });
-  });
+// function checkword(text) {
+// console.log(text)
+//   // sentences.forEach((v,i)=>{
+//   let neg = 0;
+//   let pos = 0;
+//   // console.log(v,i)
+//   let temp = text;
+//   text = text.split(" ");
+//   // console.log(text);
+//   text.forEach((t) => {
+//       swear_words.forEach((v, i) => {
+//           temp = temp.replace(v, "***");
+//       });
+//   });
 
-  // console.log(temp);
+//   // console.log(temp);
 
-  return temp;
-  // })
-}
+//   return temp;
+//   // })
+// }
 var Filter = require('bad-words'),
         filter = new Filter();
 // swear_words.forEach((v, i) => {
@@ -153,7 +153,7 @@ const websocket = {
     pin: async (msg) => {
       try {
 msg.message = filter.clean(msg.message); //Don't be an ******
-msg.message = checkword(msg.message)
+// msg.message = checkword(msg.message)
 } catch (error) {
   
 }
@@ -187,7 +187,7 @@ msg.message = checkword(msg.message)
       console.log(msg)
            try {
  msg.message = filter.clean(msg.message); //Don't be an ******
-             msg.message = checkword(msg.message)
+//              msg.message = checkword(msg.message)
 } catch (error) {
   
 }
