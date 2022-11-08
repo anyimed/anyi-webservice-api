@@ -47,8 +47,8 @@ app.get("/ready_server", async function (req, res, next) {
   const { data, error } = await supabase.from("message").select();
   //   console.log(data)
   console.error(error)
-  let date = Date.now()
-  data['date'] = date;
+//   let date = Date.now()
+  data = date;
   return res.json(data);
 });
 
