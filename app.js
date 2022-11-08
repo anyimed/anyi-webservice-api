@@ -21,7 +21,9 @@ const PORT = process.env.PORT || 3000;
 //   // console.log(swear_words);
 // });
 // import moment from 'moment';
-var moment = require("moment");
+// var moment = require("moment");
+var moment = require('moment-timezone');
+moment().tz("America/Los_Angeles").format();
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -48,7 +50,7 @@ app.get("/ready_server", async function (req, res, next) {
   // const { data, error } = await supabase.from("message").select();
   //   console.log(data)
 
-  var now = moment().format('YYYY-MM-DD hh:mm:ss');
+  var now = moment().tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm:ss');
   console.log(now)
 
   // console.error(error)
@@ -124,7 +126,7 @@ const websocket = {
       ws.send(JSON.stringify({ method: "live", data: websocket.live }));
       let i =0
       let interval = setInterval(() => {
-        var now = moment().format('YYYY-MM-DD hh:mm:ss');
+        var now = moment().tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm:ss');
         if(i == 0){
           i++
           console.log(now)
