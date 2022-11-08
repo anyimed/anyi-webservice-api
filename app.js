@@ -45,14 +45,14 @@ app.use(function (req, res, next) {
 });
 
 app.get("/ready_server", async function (req, res, next) {
-  const { data, error } = await supabase.from("message").select();
+  // const { data, error } = await supabase.from("message").select();
   //   console.log(data)
 
   var now = moment().format('YYYY-MM-DD hh:mm:ss');
   console.log(now)
 
-  console.error(error)
-  return res.json(data);
+  // console.error(error)
+  return res.json({now:now});
 });
 
 // function checkword(text) {
