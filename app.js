@@ -48,8 +48,8 @@ app.get("/ready_server", async function (req, res, next) {
   const { data, error } = await supabase.from("message").select();
   //   console.log(data)
 
-
-  // console.log(now)
+  var now = moment().format('YYYY-MM-DD hh:mm:ss');
+  console.log(now)
 
   console.error(error)
   return res.json(data);
@@ -122,9 +122,14 @@ const websocket = {
       ws.send(JSON.stringify({ method: "special", data: websocket.special }));
       ws.send(JSON.stringify({ method: "chat", data: websocket.chat }));
       ws.send(JSON.stringify({ method: "live", data: websocket.live }));
+      let i =0
       let interval = setInterval(() => {
         var now = moment().format('YYYY-MM-DD hh:mm:ss');
-        console.log(now)
+        if(i == 0){
+          i++
+          console.log(now)
+        }
+        
         if (now >= "2022-11-08 06:20:00") {
           websocket.live = true
           ws.send(JSON.stringify({ method: "live", data: { 'status': websocket.live, time: now } }));
