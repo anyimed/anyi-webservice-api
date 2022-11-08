@@ -20,7 +20,8 @@ const PORT = process.env.PORT || 3000;
 //   swear_words = data.split("\n");
 //   // console.log(swear_words);
 // });
-
+// import moment from 'moment';
+var moment = require("moment");
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -46,9 +47,11 @@ app.use(function (req, res, next) {
 app.get("/ready_server", async function (req, res, next) {
   const { data, error } = await supabase.from("message").select();
   //   console.log(data)
+  
+
+  // console.log(now)
+
   console.error(error)
-//   let date = Date.now()
-  data = date;
   return res.json(data);
 });
 
@@ -78,6 +81,15 @@ var Filter = require('bad-words'),
 //  filter.addWords(v);
 // });
 
+let interval = setInterval(()=>{
+  var now = moment().format('YYYY-MM-DD hh:mm:ss');
+  console.log(now)
+  if(now >= "2022-11-08 06:20:00"){
+    websocket.live = true
+    ws.send(JSON.stringify({ method: "live", data: websocket.live }));
+    clearInterval(interval)
+  }
+},1000)
 
 const websocket = {
   special: false,
