@@ -47,7 +47,7 @@ app.use(function (req, res, next) {
 app.get("/ready_server", async function (req, res, next) {
   const { data, error } = await supabase.from("message").select();
   //   console.log(data)
-  
+
 
   // console.log(now)
 
@@ -81,21 +81,13 @@ var Filter = require('bad-words'),
 //  filter.addWords(v);
 // });
 
-let interval = setInterval(()=>{
-  var now = moment().format('YYYY-MM-DD hh:mm:ss');
-  console.log(now)
-  if(now >= "2022-11-08 06:20:00"){
-    websocket.live = true
-    ws.send(JSON.stringify({ method: "live", data: websocket.live }));
-    clearInterval(interval)
-  }
-},1000)
+
 
 const websocket = {
   special: false,
   chat: false,
   aWss: null,
-  live:false,
+  live: false,
   temp: [],
   temppin: null,
   limit: 100,
@@ -130,7 +122,15 @@ const websocket = {
       ws.send(JSON.stringify({ method: "special", data: websocket.special }));
       ws.send(JSON.stringify({ method: "chat", data: websocket.chat }));
       ws.send(JSON.stringify({ method: "live", data: websocket.live }));
-
+      let interval = setInterval(() => {
+        var now = moment().format('YYYY-MM-DD hh:mm:ss');
+        console.log(now)
+        if (now >= "2022-11-08 06:20:00") {
+          websocket.live = true
+          ws.send(JSON.stringify({ method: "live", data: { 'status': websocket.live, time: now } }));
+          clearInterval(interval)
+        }
+      }, 1000)
     });
     app.ws("/", function (ws, req) {
       ws.on("message", function (msg) {
