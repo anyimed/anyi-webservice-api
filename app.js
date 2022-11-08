@@ -210,6 +210,7 @@ const websocket = {
       websocket.chat = msg.data
     },
     live: async (msg) => {
+      console.log(msg)
       websocket.live = msg.data
     },
     message: async (msg) => {
