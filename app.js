@@ -45,7 +45,7 @@ app.use(function (req, res, next) {
 
 app.get("/ready_server", async function (req, res, next) {
   const { data, error } = await supabase.from("message").select();
-//   console.log(data)
+  //   console.log(data)
   console.error(error)
   return res.json(data);
 });
@@ -71,7 +71,7 @@ app.get("/ready_server", async function (req, res, next) {
 //   // })
 // }
 var Filter = require('bad-words'),
-        filter = new Filter();
+  filter = new Filter();
 // swear_words.forEach((v, i) => {
 //  filter.addWords(v);
 // });
@@ -81,6 +81,7 @@ const websocket = {
   special: false,
   chat: false,
   aWss: null,
+  live:false,
   temp: [],
   temppin: null,
   limit: 100,
@@ -94,7 +95,7 @@ const websocket = {
           .select()
           .limit(websocket.limit)
           .order("id", { ascending: false });
-          console.error(error)
+        console.error(error)
         websocket.temp = data;
       }
 
@@ -105,7 +106,7 @@ const websocket = {
           .eq("active", "true")
           .limit(1)
           .order("id", { ascending: false });
-          console.error(error)
+        console.error(error)
         websocket.temppin = data ? data[0] : {};
         websocket.temppin ? (websocket.temppin.pin = true) : {};
       }
@@ -114,6 +115,7 @@ const websocket = {
       ws.send(JSON.stringify({ method: "temppin", data: websocket.temppin }));
       ws.send(JSON.stringify({ method: "special", data: websocket.special }));
       ws.send(JSON.stringify({ method: "chat", data: websocket.chat }));
+      ws.send(JSON.stringify({ method: "live", data: websocket.live }));
 
     });
     app.ws("/", function (ws, req) {
@@ -136,8 +138,11 @@ const websocket = {
           case "message":
             websocket.events.message(msg);
             break;
-           case "chat":
+          case "chat":
             websocket.events.chat(msg);
+            break;
+          case "live":
+            websocket.events.live(msg);
             break;
         }
         websocket.aWss.clients.forEach(function each(client) {
@@ -152,18 +157,18 @@ const websocket = {
   events: {
     pin: async (msg) => {
       try {
-msg.message = filter.clean(msg.message); //Don't be an ******
-// msg.message = checkword(msg.message)
-} catch (error) {
-  
-}
-      
-      
+        msg.message = filter.clean(msg.message); //Don't be an ******
+        // msg.message = checkword(msg.message)
+      } catch (error) {
+
+      }
+
+
       // checkword(msg.message)
       const { data, error } = await supabase
         .from("pin_message")
         .insert([{ user: msg.user, message: msg.message, active: true }]);
-        console.error(error)
+      console.error(error)
       websocket.temppin = data[0];
       websocket.temppin.pin = true;
       msg = websocket.temppin;
@@ -173,7 +178,7 @@ msg.message = filter.clean(msg.message); //Don't be an ******
         .from("pin_message")
         .update({ active: false })
         .eq("active", "true");
-        console.error(error)
+      console.error(error)
       websocket.temppin = { id: 0 };
     },
     sticker: async (msg) => { },
@@ -183,18 +188,21 @@ msg.message = filter.clean(msg.message); //Don't be an ******
     chat: async (msg) => {
       websocket.chat = msg.data
     },
+    live: async (msg) => {
+      websocket.live = msg.data
+    },
     message: async (msg) => {
       console.log(msg)
-           try {
- msg.message = filter.clean(msg.message); //Don't be an ******
-//              msg.message = checkword(msg.message)
-} catch (error) {
-  
-}
-     
+      try {
+        msg.message = filter.clean(msg.message); //Don't be an ******
+        //              msg.message = checkword(msg.message)
+      } catch (error) {
+
+      }
+
       // checkword(msg.message)
-      console.log(msg)
-      let obj = { user: msg.user, message: msg.message, image: msg.image, unique: msg.unique  };
+      // console.log(msg)
+      let obj = { user: msg.user, message: msg.message, image: msg.image, unique: msg.unique };
       const { data, error } = await supabase.from("message").insert([obj]);
       if (!error) {
         if (websocket.temp.length >= websocket.limit) {
