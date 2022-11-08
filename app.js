@@ -124,20 +124,20 @@ const websocket = {
       ws.send(JSON.stringify({ method: "special", data: websocket.special }));
       ws.send(JSON.stringify({ method: "chat", data: websocket.chat }));
       ws.send(JSON.stringify({ method: "live", data: websocket.live }));
-      let i =0
-      let interval = setInterval(() => {
-        var now = moment().tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm:ss');
-        if(i == 0){
-          i++
-          console.log(now)
-        }
+//       let i =0
+//       let interval = setInterval(() => {
+//         var now = moment().tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm:ss');
+//         if(i == 0){
+//           i++
+//           console.log(now)
+//         }
         
-        if (now >= "2022-11-08 06:20:00") {
-          websocket.live = true
-          ws.send(JSON.stringify({ method: "live", data: { 'status': websocket.live, time: now } }));
-          clearInterval(interval)
-        }
-      }, 1000)
+//         if (now >= "2022-11-08 06:20:00") {
+//           websocket.live = true
+//           ws.send(JSON.stringify({ method: "live", data: { 'status': websocket.live, time: now } }));
+//           clearInterval(interval)
+//         }
+//       }, 1000)
     });
     app.ws("/", function (ws, req) {
       ws.on("message", function (msg) {
