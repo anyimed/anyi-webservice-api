@@ -48,14 +48,15 @@ app.use(function (req, res, next) {
 
 app.get("/ready_server", async function (req, res, next) {
   // const { data, error } = await supabase.from("message").select();
-  //   console.log(data)
+  // console.log(data)
 
   var now = moment().tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm:ss');
-//   console.log(now)
+  //  console.log(now)
 
-
+  let count = 0
+  websocket.aWss.clients.forEach(v=>count++)
   // console.error(error)
-  return res.json({now:now,client:websocket.aWss.clients});
+  return res.json({now:now,client:count});
 });
 
 // function checkword(text) {
@@ -215,7 +216,7 @@ const websocket = {
       websocket.live = msg.data
     },
     message: async (msg) => {
-//       console.log(msg)
+//  console.log(msg)
       try {
         msg.message = filter.clean(msg.message); //Don't be an ******
         //              msg.message = checkword(msg.message)
