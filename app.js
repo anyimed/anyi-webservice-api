@@ -55,7 +55,7 @@ app.get("/ready_server", async function (req, res, next) {
 
 
   // console.error(error)
-  return res.json({now:now,client:websocket.aWss});
+  return res.json({now:now,client:websocket.aWss.clients});
 });
 
 // function checkword(text) {
