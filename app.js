@@ -51,10 +51,11 @@ app.get("/ready_server", async function (req, res, next) {
   //   console.log(data)
 
   var now = moment().tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm:ss');
-  console.log(now)
+//   console.log(now)
+
 
   // console.error(error)
-  return res.json({now:now});
+  return res.json({now:now,client:websocket.aWss.clients.length});
 });
 
 // function checkword(text) {
@@ -172,7 +173,7 @@ const websocket = {
           }
         });
       });
-      console.log("socket", req.testing);
+//       console.log("socket", req.testing);
     });
   },
   events: {
@@ -214,7 +215,7 @@ const websocket = {
       websocket.live = msg.data
     },
     message: async (msg) => {
-      console.log(msg)
+//       console.log(msg)
       try {
         msg.message = filter.clean(msg.message); //Don't be an ******
         //              msg.message = checkword(msg.message)
