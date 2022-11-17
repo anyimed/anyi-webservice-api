@@ -59,6 +59,17 @@ app.get("/ready_server", async function (req, res, next) {
   return res.json({now:now,client:count});
 });
 
+app.get("/clearcache", async function (req, res, next) {
+  websocket.special: false
+  websocket.chat: false
+  websocket.aWss: null
+  websocket.live: false
+  websocket.temp: []
+  websocket.temppin: null
+  websocket.limit: 100
+  return res.json({success:true});
+});
+
 // function checkword(text) {
 // console.log(text)
 //   // sentences.forEach((v,i)=>{
