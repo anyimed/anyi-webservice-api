@@ -70,6 +70,24 @@ app.get("/clearcache", async function (req, res, next) {
   return res.json({success:true});
 });
 
+app.get("/url/:url", async function (req, res, next) {
+  websocket.url = req.params.url;
+  let tell_client = 0 
+  let msg = { method: "liveUrl", data: {success:true,url:websocket.url} }
+  websocket.aWss.clients.forEach(function each(client) {
+    if (client.readyState === ws.OPEN) {
+      tell_client++;
+      client.send(JSON.stringify(msg));
+    }
+  });
+  return res.json({success:true,newUrl:websocket.url,tell:tell_client});
+});
+app.get("/url/", async function (req, res, next) {
+  return res.json({success:true,currentUrl:websocket.url});
+});
+
+ 
+
 // function checkword(text) {
 // console.log(text)
 //   // sentences.forEach((v,i)=>{
@@ -99,6 +117,7 @@ var Filter = require('bad-words'),
 
 
 const websocket = {
+  url:'',
   special: false,
   chat: false,
   aWss: null,
@@ -137,6 +156,7 @@ const websocket = {
       ws.send(JSON.stringify({ method: "special", data: websocket.special }));
       ws.send(JSON.stringify({ method: "chat", data: websocket.chat }));
       ws.send(JSON.stringify({ method: "live", data: websocket.live }));
+      ws.send(JSON.stringify({ method: "liveUrl", data: {success:true,url:websocket.url} }));
 //       let i =0
 //       let interval = setInterval(() => {
 //         var now = moment().tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm:ss');
