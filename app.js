@@ -72,15 +72,17 @@ app.get("/clearcache", async function (req, res, next) {
 
 app.get("/url/:url", async function (req, res, next) {
   websocket.url = req.params.url;
-  let tell_client = 0 
-  let msg = { method: "liveUrl", data: {success:true,url:websocket.url} }
-  websocket.aWss.clients.forEach(function each(client) {
-    if (client.readyState === ws.OPEN) {
-      tell_client++;
-      client.send(JSON.stringify(msg));
-    }
-  });
-  return res.json({success:true,newUrl:websocket.url,tell:tell_client});
+//   let tell_client = 0 
+//   let msg = { method: "liveUrl", data: {success:true,url:websocket.url} }
+//   websocket.aWss.clients.forEach(function each(client) {
+//     if (client.readyState === ws.OPEN) {
+//       tell_client++;
+//       client.send(JSON.stringify(msg));
+//     }
+//   });
+  return res.json({success:true,newUrl:websocket.url
+//                    ,tell:tell_client
+                  });
 });
 app.get("/url/", async function (req, res, next) {
   return res.json({success:true,currentUrl:websocket.url});
@@ -118,6 +120,7 @@ var Filter = require('bad-words'),
 
 const websocket = {
   url:'',
+  ws:'',
   special: false,
   chat: false,
   aWss: null,
@@ -175,7 +178,6 @@ const websocket = {
     app.ws("/", function (ws, req) {
       ws.on("message", function (msg) {
         // console.log(msg);
-        msg = JSON.parse(msg);
         switch (msg.method) {
           case "pin":
             websocket.events.pin(msg);
@@ -197,6 +199,9 @@ const websocket = {
             break;
           case "live":
             websocket.events.live(msg);
+            break;
+          case "liveUrl":
+            msg = { method: "liveUrl", data: {success:true,url:websocket.url} }
             break;
         }
         websocket.aWss.clients.forEach(function each(client) {
@@ -243,7 +248,7 @@ const websocket = {
       websocket.chat = msg.data
     },
     live: async (msg) => {
-      console.log(msg)
+//       console.log(msg)
       websocket.live = msg.data
     },
     message: async (msg) => {
