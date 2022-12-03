@@ -70,15 +70,15 @@ app.get("/clearcache", async function (req, res, next) {
   return res.json({success:true});
 });
 
-app.get("/url/:url", async function (req, res, next) {
-  websocket.url = req.params.url;
+app.post("/url", async function (req, res, next) {
+  websocket.url = req.body.url;
   return res.json({
     success: true, newUrl: websocket.url  });
 });
-app.get("/url/", async function (req, res, next) {
+app.get("/url", async function (req, res, next) {
   return res.json({ success: true, currentUrl: websocket.url });
 });
-app.get("/tell/", async function (req, res, next) {
+app.get("/tell", async function (req, res, next) {
   let tell_client = 0
   let msg = { method: "liveUrl", data: { success: true, url: websocket.url } }
   websocket.aWss.clients.forEach(function each(client) {
@@ -88,15 +88,15 @@ app.get("/tell/", async function (req, res, next) {
   return res.json({ success: true, url: websocket.url, tell: tell_client });
 });
 
-app.get("/islive/:data", async function (req, res, next) {
-  websocket.islive = req.params.data;
+app.post("/islive", async function (req, res, next) {
+  websocket.islive = req.body.islive;
   return res.json({
     success: true, islive: websocket.isLive  });
 });
-app.get("/islive/", async function (req, res, next) {
+app.get("/islive", async function (req, res, next) {
   return res.json({ success: true, islive: websocket.islive });
 });
-app.get("/tell_islive/", async function (req, res, next) {
+app.get("/tell_islive", async function (req, res, next) {
   let tell_client = 0
   let msg = { method: "islive", data: { success: true, url: websocket.url } }
   websocket.aWss.clients.forEach(function each(client) {
