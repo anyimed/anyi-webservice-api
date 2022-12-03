@@ -85,7 +85,7 @@ app.get("/tell/", async function (req, res, next) {
       tell_client++;
       client.send(JSON.stringify(msg));
   });
-  return res.json({ success: true, newUrl: websocket.url, tell: tell_client });
+  return res.json({ success: true, url: websocket.url, tell: tell_client });
 });
 
  
