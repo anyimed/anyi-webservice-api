@@ -72,20 +72,20 @@ app.get("/clearcache", async function (req, res, next) {
 
 app.get("/url/:url", async function (req, res, next) {
   websocket.url = req.params.url;
-//   let tell_client = 0 
-//   let msg = { method: "liveUrl", data: {success:true,url:websocket.url} }
-//   websocket.aWss.clients.forEach(function each(client) {
-//     if (client.readyState === ws.OPEN) {
-//       tell_client++;
-//       client.send(JSON.stringify(msg));
-//     }
-//   });
-  return res.json({success:true,newUrl:websocket.url
-//                    ,tell:tell_client
-                  });
+  return res.json({
+    success: true, newUrl: websocket.url  });
 });
 app.get("/url/", async function (req, res, next) {
-  return res.json({success:true,currentUrl:websocket.url});
+  return res.json({ success: true, currentUrl: websocket.url });
+});
+app.get("/tell/", async function (req, res, next) {
+  let tell_client = 0
+  let msg = { method: "liveUrl", data: { success: true, url: websocket.url } }
+  websocket.aWss.clients.forEach(function each(client) {
+      tell_client++;
+      client.send(JSON.stringify(msg));
+  });
+  return res.json({ success: true, newUrl: websocket.url, tell: tell_client });
 });
 
  
