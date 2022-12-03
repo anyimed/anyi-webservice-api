@@ -101,20 +101,25 @@ app.get("/tell", async function (req, res, next) {
 app.post("/islive", async function (req, res, next) {
 console.log(req.body)
   websocket.islive = req.body.islive;
-  return res.json({
-    success: true, islive: websocket.isLive  });
+  let tell_client = 0
+  let msg = { method: "islive", data: { success: true, islive: websocket.islive } }
+  websocket.aWss.clients.forEach(function each(client) {
+      tell_client++;
+      client.send(JSON.stringify(msg));
+  });
+  return res.json({ success: true, islive: websocket.islive, tell: tell_client });
 });
 app.get("/islive", async function (req, res, next) {
   return res.json({ success: true, islive: websocket.islive });
 });
 app.get("/tell_islive", async function (req, res, next) {
   let tell_client = 0
-  let msg = { method: "islive", data: { success: true, url: websocket.url } }
+  let msg = { method: "islive", data: { success: true, islive: websocket.islive } }
   websocket.aWss.clients.forEach(function each(client) {
       tell_client++;
       client.send(JSON.stringify(msg));
   });
-  return res.json({ success: true, url: websocket.url, tell: tell_client });
+  return res.json({ success: true, islive: websocket.islive, tell: tell_client });
 });
  
 
@@ -148,7 +153,7 @@ var Filter = require('bad-words'),
 
 const websocket = {
   url:'',
-  islive:'',
+  islive:false,
   ws:'',
   special: false,
   chat: false,
