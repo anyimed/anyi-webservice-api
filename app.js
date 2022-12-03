@@ -72,9 +72,9 @@ app.get("/clearcache", async function (req, res, next) {
 
 app.post("/url", async function (req, res, next) {
 console.log(req.body)
-  websocket.url = req.body.url;
-  return res.json({
-    success: true, newUrl: websocket.url  });
+//   websocket.url = req.body.url;
+//   return res.json({
+//     success: true, newUrl: websocket.url  });
 });
 app.get("/url", async function (req, res, next) {
   return res.json({ success: true, currentUrl: websocket.url });
@@ -91,9 +91,9 @@ app.get("/tell", async function (req, res, next) {
 
 app.post("/islive", async function (req, res, next) {
 console.log(req.body)
-  websocket.islive = req.body.islive;
-  return res.json({
-    success: true, islive: websocket.isLive  });
+//   websocket.islive = req.body.islive;
+//   return res.json({
+//     success: true, islive: websocket.isLive  });
 });
 app.get("/islive", async function (req, res, next) {
   return res.json({ success: true, islive: websocket.islive });
