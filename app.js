@@ -88,6 +88,23 @@ app.get("/tell/", async function (req, res, next) {
   return res.json({ success: true, url: websocket.url, tell: tell_client });
 });
 
+app.get("/islive/:data", async function (req, res, next) {
+  websocket.islive = req.params.data;
+  return res.json({
+    success: true, islive: websocket.isLive  });
+});
+app.get("/islive/", async function (req, res, next) {
+  return res.json({ success: true, islive: websocket.islive });
+});
+app.get("/tell_islive/", async function (req, res, next) {
+  let tell_client = 0
+  let msg = { method: "islive", data: { success: true, url: websocket.url } }
+  websocket.aWss.clients.forEach(function each(client) {
+      tell_client++;
+      client.send(JSON.stringify(msg));
+  });
+  return res.json({ success: true, url: websocket.url, tell: tell_client });
+});
  
 
 // function checkword(text) {
@@ -120,6 +137,7 @@ var Filter = require('bad-words'),
 
 const websocket = {
   url:'',
+  islive:'',
   ws:'',
   special: false,
   chat: false,
@@ -160,6 +178,8 @@ const websocket = {
       ws.send(JSON.stringify({ method: "chat", data: websocket.chat }));
       ws.send(JSON.stringify({ method: "live", data: websocket.live }));
       ws.send(JSON.stringify({ method: "liveUrl", data: {success:true,url:websocket.url} }));
+      ws.send(JSON.stringify({ method: "islive", data: {success:true,islive:websocket.islive} }));
+
 //       let i =0
 //       let interval = setInterval(() => {
 //         var now = moment().tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm:ss');
