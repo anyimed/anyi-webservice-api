@@ -1,7 +1,13 @@
 var express = require("express");
 var app = express();
-const bodyParser = require('body-parser');
-app.use(express.bodyParser());
+// const bodyParser = require('body-parser');
+// app.set('etag', true);
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({
+//   extended: true
+// }));
+app.use(express.urlencoded())
+app.use(express.json())
 
 var expressWs = require("express-ws")(app);
 /********************************/
