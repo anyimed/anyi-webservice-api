@@ -79,11 +79,15 @@ app.get("/clearcache", async function (req, res, next) {
   return res.json({success:true});
 });
 
+app.get("/avatar", async function (req, res, next) {
+   return res.json({ success: true, url: websocket.url });
+});
+
 app.post("/url", async function (req, res, next) {
 console.log(req.body)
   websocket.url = req.body.url;
   return res.json({
-    success: true, newUrl: websocket.url  });
+    success: true, newUrl: websocket.url, islive: websocket.islive });
 });
 app.get("/url", async function (req, res, next) {
   return res.json({ success: true, currentUrl: websocket.url });
